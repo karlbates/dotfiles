@@ -34,6 +34,9 @@ set novisualbell
 set t_vb=
 set tm=500
 
+" don't auto-continue comments
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -57,8 +60,8 @@ set encoding=utf8
 " user added
 " nice tab stuff
 set smartindent
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set expandtab
 
 " line numbers
