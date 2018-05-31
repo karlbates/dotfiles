@@ -102,11 +102,11 @@ if ! shopt -oq posix; then
 fi
 
 # added by perl
-PATH="/home/kbates/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/kbates/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/kbates/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/kbates/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/kbates/perl5"; export PERL_MM_OPT;
+PATH="/home/$USER/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/$USER/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/$USER/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/$USER/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/$USER/perl5"; export PERL_MM_OPT;
 
 ##########
 ## self added
@@ -121,7 +121,7 @@ function path_remove {
 
 function _tmux {
 tmux new-session -d -s $1
-tmux send-keys -t $1 "export PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/var/cfengine/bin:/usr/share/doc/subversion-1.6.11:/opt/mv_pro_5.0/montavista/pro/devkit/arm/v5t_le/bin/:/home/london/kbates/bin" enter
+tmux send-keys -t $1 "export PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/var/cfengine/bin:/usr/share/doc/subversion-1.6.11:/opt/mv_pro_5.0/montavista/pro/devkit/arm/v5t_le/bin/:/home/london/$USER/bin" enter
 tmux send-keys -t $1 "unset XDG_DATA_DIRS" Enter
 tmux send-keys -t $1 "unset X_SCLS" Enter
 tmux send-keys -t $1 "unset PKG_CONFIG_PATH" Enter
