@@ -19,3 +19,7 @@ alias make='colormake'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+
+# python aliases
+alias python2='python'
+alias python='python3'
