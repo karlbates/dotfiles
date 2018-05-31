@@ -30,3 +30,7 @@ alias ssh-gnpd-db12='ssh kbates@gnpd-linux-db-backup.svc.mintel.ad'
 alias ssh-gnpd-prod='ssh kbates@dev-gnpd-production-app01'
 alias ssh-gnpd-web='ssh kbates@dev-gnpd-app13.london.mintel.ad'
 alias ssh-dev-ppt='ssh kbates@test-ppt-app01.london.mintel.ad'
+
+# python aliases
+alias python2='python'
+alias python='python3'
