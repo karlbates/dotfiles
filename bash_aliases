@@ -21,5 +21,5 @@ alias la='ls -A'
 alias l='ls -CF'
 
 # python aliases
-alias python2='python'
+alias python2='/usr/bin/python2'
 alias python='python3'
