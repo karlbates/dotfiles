@@ -1,3 +1,4 @@
+echo "bashrc"
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -101,6 +102,16 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
 # added by perl
 PATH="/home/$USER/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="/home/$USER/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
@@ -133,6 +144,18 @@ alias tmuxx=_tmux
 
 export USING_PER_DEV_REPLICATION=1
 
+# only ask for my SSH key passphrase once!
+# use existing ssh-agent if possible
+#if [ -f "${HOME}/.ssh-agent" ]; then
+#   . "${HOME}/.ssh-agent" > /dev/null
+#fi
+#if [ -z "$SSH_AGENT_PID" -o -z "`ps -a|grep -e \"^[ ]+$SSH_AGENT_PID\"`" ]; then
+#   /usr/bin/ssh-agent > "${HOME}/.ssh-agent"
+#   . "${HOME}/.ssh-agent" > /dev/null
+#fi
+
+#eval `ssh-agent -s`
+#ssh-add ~/.ssh/id_rsa
 
 if [ -d /opt/rh/rh-python36 ]; then
     source /opt/rh/rh-python36/enable

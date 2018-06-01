@@ -33,4 +33,6 @@ alias ssh-dev-ppt='ssh est-ppt-app01.london.mintel.ad'
 
 # python aliases
 alias python2='/usr/bin/python2'
-alias python='python3'
+alias python='/usr/bin/python3'
+alias pip2='/usr/bin/pip2'
+alias pip='/usr/bin/pip3'
