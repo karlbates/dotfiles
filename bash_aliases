@@ -32,5 +32,5 @@ alias ssh-gnpd-web='ssh dev-gnpd-app13.london.mintel.ad'
 alias ssh-dev-ppt='ssh est-ppt-app01.london.mintel.ad'
 
 # python aliases
-alias python2='python'
+alias python2='/usr/bin/python2'
 alias python='python3'
