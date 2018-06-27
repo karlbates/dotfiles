@@ -160,3 +160,7 @@ if [ -d /opt/rh/rh-python36 ]; then
     source /opt/rh/rh-python36/enable
 fi
 
+if [ -d /opt/rh/httpd24 ]; then
+    source /opt/rh/httpd24/enable
+fi
+
