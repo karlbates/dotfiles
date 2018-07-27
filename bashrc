@@ -143,6 +143,11 @@ alias tmuxx=_tmux
 
 export USING_PER_DEV_REPLICATION=1
 
+function glog {
+   git log --graph --all --format=format:"%x09%C(yellow)%h%C(reset) %C(green)%ai%x08%x08%x08%x08%x08%x08%C(reset) %C(bold white)%cn%C(reset)%C(auto)%d%C(reset)%n%x09%C(white)%s%C(reset)" --abbrev-commit "$@"
+   echo
+}
+
 # only ask for my SSH key passphrase once!
 # use existing ssh-agent if possible
 #if [ -f "${HOME}/.ssh-agent" ]; then
