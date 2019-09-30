@@ -23,3 +23,9 @@ alias l='ls -CF'
 # python aliases
 alias py2='python2'
 alias py3='python3'
+alias ppy3='PYTHONPATH=. python3'
+
+# pytest alias
+alias ppytest='PYTHONPATH=src pytest -svvv'
+
+alias pienv='pipenv'
