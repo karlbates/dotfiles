@@ -57,7 +57,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;35m\]\u\[\033[00;37m\]@\[\033[01;32m\]\h\[\033[00;37m\]:\[\033[01;34m\]\W\[\033[00;37m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;35m\]\u\[\033[00;37m\]@\[\033[01;32m\]\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -171,6 +171,15 @@ fi
 
 if [ -f $HOME/.local/autocomplete/make_sh_autocomplete ]; then
     source $HOME/.local/autocomplete/make_sh_autocomplete
+fi
+
+export PIPENV_VENV_IN_PROJECT=1
+
+# CUDA et al
+if [ -d /usr/local/cuda ]; then
+    PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
+    LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64"
+    export CUDA_HOME=/usr/local/cuda
 fi
 
 export PIPENV_VENV_IN_PROJECT=1
