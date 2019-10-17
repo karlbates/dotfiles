@@ -182,4 +182,3 @@ if [ -d /usr/local/cuda ]; then
     export CUDA_HOME=/usr/local/cuda
 fi
 
-export PIPENV_VENV_IN_PROJECT=1
