@@ -44,3 +44,11 @@ alias ppy3='PYTHONPATH=. python3'
 alias ppytest='PYTHONPATH=src pytest -svvv'
 
 alias pienv='pipenv'
+
+
+# docker aliases
+
+alias stopker="docker ps -q | xargs -t docker stop"
+alias clearker="docker ps -qa | xargs -t docker rm"
+alias dieker="stopker && clearker"
+
