@@ -6,7 +6,7 @@
 
 ########## Variables
 
-dir=~/repos/dotfiles                        # dotfiles directory
+dir=$PWD                        # dotfiles directory
 olddir=~/dotfiles_old                       # old dotfiles backup directory
 #files="bashrc bash_aliases bash_logout vimrc vim"    # list of files/folders to symlink in homedir
 files=`ls $dir`
