@@ -13,7 +13,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # more colours
-alias make='colormake'
+#alias make='colormake'
 
 # some more ls aliases
 alias ll='ls -alF'
@@ -42,6 +42,7 @@ alias ppy3='PYTHONPATH=. python3'
 
 # pytest alias
 alias ppytest='PYTHONPATH=src pytest -svvv'
+alias fpytest='PYTHONPATH=func pytest -svvv'
 
 alias pienv='pipenv'
 
