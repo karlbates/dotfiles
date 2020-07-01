@@ -182,3 +182,7 @@ if [ -d /usr/local/cuda ]; then
     export CUDA_HOME=/usr/local/cuda
 fi
 
+if [ -f $HOME/.jfrog-env ]; then
+    source $HOME/.jfrog-env
+fi
+
