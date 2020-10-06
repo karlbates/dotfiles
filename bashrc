@@ -186,3 +186,8 @@ if [ -f $HOME/.jfrog-env ]; then
     source $HOME/.jfrog-env
 fi
 
+
+
+function dlogs {
+        docker logs -f `docker ps | ag $1 | cut -f 1 -d ' '`
+}
