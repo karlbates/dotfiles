@@ -56,8 +56,133 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+
+# set colour codes (fg=foreground, bg=background)
+# name      standard    bright
+#           fg  bg      fg  bg
+# black     30  40      90  100
+# red       31  41      91  101
+# green     32  42      92  102
+# yellow    33  43      93  103
+# blue      34  44      94  104
+# magenta   35  45      95  105
+# cyan      36  46      96  106
+# white     37  47      97  107
+
+# eg "\e[1;30;47m" = bold black letters ith white background
+#     ^^            escape code (\e or \033)
+#       ^           [ required
+#        ^          format, optional (0=standard, 1=bold)
+#         ^         separator
+#          ^^       text code
+#            ^      separator
+#             ^^    background code
+#               ^   end code
+C_RESET="\033[0m"
+# standard colours
+  C_black="\033[30m"
+    C_red="\033[31m"
+  C_green="\033[32m"
+ C_yellow="\033[33m"
+   C_blue="\033[34m"
+C_magenta="\033[35m"
+   C_cyan="\033[36m"
+  C_white="\033[37m"
+# bold standard colours
+  C_BLACK="\033[1;30m"
+    C_RED="\033[1;31m"
+  C_GREEN="\033[1;32m"
+ C_YELLOW="\033[1;33m"
+   C_BLUE="\033[1;34m"
+C_MAGENTA="\033[1;35m"
+   C_CYAN="\033[1;36m"
+  C_WHITE="\033[1;37m"
+# bright colours
+  C_B_black="\033[90m"
+    C_B_red="\033[91m"
+  C_B_green="\033[92m"
+ C_B_yellow="\033[93m"
+   C_B_blue="\033[94m"
+C_B_magenta="\033[95m"
+   C_B_cyan="\033[96m"
+  C_B_white="\033[97m"
+# bold bright colours
+  C_B_BLACK="\033[1;90m"
+    C_B_RED="\033[1;91m"
+  C_B_GREEN="\033[1;92m"
+ C_B_YELLOW="\033[1;93m"
+   C_B_BLUE="\033[1;94m"
+C_B_MAGENTA="\033[1;95m"
+   C_B_CYAN="\033[1;96m"
+  C_B_WHITE="\033[1;97m"
+# custom colours
+C_OCHRE="\033[38;5;95m"
+C_WHITE_RED="\033[1;37;41m"
+
+
+function git_branch {
+    local git_status="$(git status 2> /dev/null)"
+    local on_branch="On branch ([^${IFS}]*)"
+    local on_commit="HEAD detached at ([^${IFS}]*)"
+
+    if [[ $git_status =~ $on_branch ]]; then
+        local branch=${BASH_REMATCH[1]}
+        echo "($branch)"
+    elif [[ $git_status =~ $on_commit ]]; then
+        local commit=${BASH_REMATCH[1]}
+        echo "($commit)"
+    fi
+}
+
+function git_colour {
+    local git_status="$(git status 2> /dev/null)"
+
+    if [[ ! $git_status =~ "working directory clean" ]]; then
+        echo -e ${C_RED}red
+    elif [[ $git_status =~ "Your branch is ahead of" ]]; then
+        echo -e ${C_YELLOW}yellow
+    elif [[ $git_status =~ "nothing to commit" ]]; then
+        echo -e ${C_GREEN}green
+    else
+        echo -e ${C_OCHRE}ochre
+    fi
+}
+
+function parse_git_branch {
+    local branch=$(git_branch)
+    case "$branch" in
+    "(master)"|master)
+        echo -en " ${C_red}${branch}"
+        ;;
+    "")
+        ;;
+    *)
+        echo -en " ${C_YELLOW}${branch}"
+        ;;
+    esac
+}
+
+function user_colour {
+    case $USER in
+    root)
+        echo -e $C_WHITE_RED
+        ;;
+    *)
+        echo -e $C_MAGENTA
+        ;;
+    esac
+}
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;35m\]\u\[\033[00;37m\]@\[\033[01;32m\]\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
+    PS1="${debian_chroot:+($debian_chroot)}"
+    PS1+="\$(user_colour)\u"
+    PS1+="\[$C_RESET\]@"
+    PS1+="\[$C_GREEN\]\h"
+    PS1+="\[$C_RESET\]:"
+    PS1+="\[$C_BLUE\]\W"
+    PS1+="\[$C_RESET\]"
+    PS1+="\$(parse_git_branch)"
+    PS1+="\[$C_RESET\]\$ "
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -76,7 +201,6 @@ esac
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 
-
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -85,7 +209,6 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
@@ -182,7 +305,17 @@ if [ -d /usr/local/cuda ]; then
     export CUDA_HOME=/usr/local/cuda
 fi
 
-if [ -f $HOME/.jfrog-env ]; then
+if [[ -f $HOME/.jfrog-env ]]; then
+    source $HOME/.jfrog-env
+elif [[ `which portunus` ]]; then
+    portunus
     source $HOME/.jfrog-env
 fi
+
+if [[ -f $HOME/.env ]]; then
+    source $HOME/.env
+fi
+
+
+
 
