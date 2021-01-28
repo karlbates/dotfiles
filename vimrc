@@ -8,7 +8,7 @@ set ruler
 " Ignore case when searching
 set ignorecase
 
-" When searching try to be smart about cases 
+" When searching try to be smart about cases
 set smartcase
 
 " Highlight search results
@@ -66,3 +66,13 @@ set expandtab
 
 " line numbers
 set number
+
+" show trailing whitespace, mixed spaces/tabs
+highlight ExtraSpaces ctermbg=darkred guibg=darkred
+highlight TooLong ctermbg=darkgrey guibg=darkgrey
+
+call matchadd('ExtraSpaces', '\s\+$', 0)  " trailing whitespace
+call matchadd('ExtraSpaces', ' \+\t\+', 0) " spaces before tabs
+call matchadd('ExtraSpaces', '\t\+ \+', 0) " tabs before spaces
+call matchadd('TooLong', '\%>88v.\+' , -1)
+
