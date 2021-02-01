@@ -305,6 +305,16 @@ if [ -d /usr/local/cuda ]; then
     export CUDA_HOME=/usr/local/cuda
 fi
 
+# jfrog
+if [[ -f $HOME/.jfrog-credentials ]]; then
+    now=$(date +%s)
+    enddate=$(jq -r .expiry_date $HOME/.jfrog-credentials)
+    end=$(date -d ${enddate} +%s)
+    if [[ $now -gt $end ]]; then
+        rm $HOME/.jfrog-credentials
+        rm $HOME/.jfrog-env
+    fi
+fi
 if [[ -f $HOME/.jfrog-env ]]; then
     source $HOME/.jfrog-env
 elif [[ `which portunus` ]]; then
