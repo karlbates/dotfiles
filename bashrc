@@ -175,7 +175,7 @@ function user_colour {
 
 if [ "$color_prompt" = yes ]; then
     PS1="${debian_chroot:+($debian_chroot)}"
-    PS1+="\$(user_colour)\u"
+    PS1+="\[\$(user_colour)\]\u"
     PS1+="\[$C_RESET\]@"
     PS1+="\[$C_GREEN\]\h"
     PS1+="\[$C_RESET\]:"
