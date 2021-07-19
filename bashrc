@@ -121,7 +121,7 @@ C_WHITE_RED="\033[1;37;41m"
 
 
 function git_branch {
-    local git_status="$(git status 2> /dev/null)"
+    local git_status="$(timeout 2 git status 2> /dev/null)"
     local on_branch="On branch ([^${IFS}]*)"
     local on_commit="HEAD detached at ([^${IFS}]*)"
 
@@ -135,7 +135,7 @@ function git_branch {
 }
 
 function git_colour {
-    local git_status="$(git status 2> /dev/null)"
+    local git_status="$(timeout 2 git status 2> /dev/null)"
 
     if [[ ! $git_status =~ "working directory clean" ]]; then
         echo -e ${C_RED}red
@@ -182,6 +182,7 @@ if [ "$color_prompt" = yes ]; then
     PS1+="\[$C_BLUE\]\W"
     PS1+="\[$C_RESET\]"
     PS1+="\$(parse_git_branch)"
+    PS1+="\n"
     PS1+="\[$C_RESET\]\$ "
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
@@ -244,6 +245,12 @@ PERL_MM_OPT="INSTALL_BASE=/home/$USER/perl5"; export PERL_MM_OPT;
 ##########
 ## self added
 export EDITOR=vim
+export USING_PER_DEV_REPLICATION=1
+export PIPENV_VENV_IN_PROJECT=1
+
+if [[ -f $HOME/.env ]]; then
+    source $HOME/.env
+fi
 
 function path_remove {
   # Delete path by parts so we can never accidentally remove sub paths
@@ -264,25 +271,11 @@ tmux attach -t $1
 
 alias tmuxx=_tmux
 
-export USING_PER_DEV_REPLICATION=1
-
 function glog {
    git log --graph --all --format=format:"%x09%C(yellow)%h%C(reset) %C(green)%ai%x08%x08%x08%x08%x08%x08%C(reset) %C(bold white)%cn%C(reset)%C(auto)%d%C(reset)%n%x09%C(white)%s%C(reset)" --abbrev-commit "$@"
    echo
 }
 
-# only ask for my SSH key passphrase once!
-# use existing ssh-agent if possible
-#if [ -f "${HOME}/.ssh-agent" ]; then
-#   . "${HOME}/.ssh-agent" > /dev/null
-#fi
-#if [ -z "$SSH_AGENT_PID" -o -z "`ps -a|grep -e \"^[ ]+$SSH_AGENT_PID\"`" ]; then
-#   /usr/bin/ssh-agent > "${HOME}/.ssh-agent"
-#   . "${HOME}/.ssh-agent" > /dev/null
-#fi
-
-#eval `ssh-agent -s`
-#ssh-add ~/.ssh/id_rsa
 
 if [ -d /opt/rh/rh-python36 ]; then
     source /opt/rh/rh-python36/enable
@@ -296,7 +289,6 @@ if [ -f $HOME/.local/autocomplete/make_sh_autocomplete ]; then
     source $HOME/.local/autocomplete/make_sh_autocomplete
 fi
 
-export PIPENV_VENV_IN_PROJECT=1
 
 # CUDA et al
 if [ -d /usr/local/cuda ]; then
@@ -305,27 +297,40 @@ if [ -d /usr/local/cuda ]; then
     export CUDA_HOME=/usr/local/cuda
 fi
 
+
 # jfrog
 if [[ -f $HOME/.jfrog-credentials ]]; then
     now=$(date +%s)
     enddate=$(jq -r .expiry_date $HOME/.jfrog-credentials)
+    jfrog_user=$(jq -r .username $HOME/.jfrog-credentials)
     end=$(date -d ${enddate} +%s)
     if [[ $now -gt $end ]]; then
         rm $HOME/.jfrog-credentials
         rm $HOME/.jfrog-env
     fi
 fi
+if [[ -n $PORTUNUS_USER ]]; then
+    jfrog_user=$PORTUNUS_USER
+fi
 if [[ -f $HOME/.jfrog-env ]]; then
     source $HOME/.jfrog-env
 elif [[ `which portunus` ]]; then
-    portunus
+    if [[ -n "$jfrog_user" ]]; then
+        echo "portunus (user: $jfrog_user)"
+        portunus -u $jfrog_user
+    else
+        echo portunus
+        portunus
+    fi
+
     source $HOME/.jfrog-env
 fi
 
-if [[ -f $HOME/.env ]]; then
-    source $HOME/.env
+# thefuck
+_=which thefuck
+if [[ $? -eq 0 ]]; then
+    eval "$(thefuck --alias)"
 fi
-
 
 
 
