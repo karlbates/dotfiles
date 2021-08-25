@@ -121,7 +121,7 @@ C_WHITE_RED="\033[1;37;41m"
 
 
 function git_branch {
-    local git_status="$(timeout 2 git status 2> /dev/null)"
+    local git_status="$(timeout 1 git status 2> /dev/null)"
     local on_branch="On branch ([^${IFS}]*)"
     local on_commit="HEAD detached at ([^${IFS}]*)"
 
@@ -151,7 +151,7 @@ function git_colour {
 function parse_git_branch {
     local branch=$(git_branch)
     case "$branch" in
-    "(master)"|master)
+    "(master)"|master|"(main)"|main)
         echo -en " ${C_red}${branch}"
         ;;
     "")
@@ -295,6 +295,10 @@ if [ -d /usr/local/cuda ]; then
     PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
     LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64"
     export CUDA_HOME=/usr/local/cuda
+fi
+
+if [ -f $HOME/.poetry/env ]; then
+    source $HOME/.poetry/env
 fi
 
 
