@@ -329,12 +329,17 @@ elif [[ `which portunus` ]]; then
 
     source $HOME/.jfrog-env
 fi
+_=`which poetry`
+if [[ $? -eq 0 ]]; then
+    if [[ -n $JFROG_USERNAME ]] && [[ -n $JFROG_ACCESS_TOKEN ]]; then
+        poetry config http-basic.jfrog ${JFROG_USERNAME} ${JFROG_ACCESS_TOKEN}
+    fi
+    poetry config virtualenvs.in-project true
+fi
 
 # thefuck
-_=which thefuck
+_=`which thefuck`
 if [[ $? -eq 0 ]]; then
     eval "$(thefuck --alias)"
 fi
-
-
 
