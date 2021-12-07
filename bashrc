@@ -337,6 +337,10 @@ if [[ $? -eq 0 ]]; then
     poetry config virtualenvs.in-project true
 fi
 
+if [[ -d "./bin" ]]; then
+    export PATH=`pwd`/bin:$PATH
+fi
+
 # thefuck
 _=`which thefuck`
 if [[ $? -eq 0 ]]; then
