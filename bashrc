@@ -16,8 +16,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=10000
-HISTFILESIZE=20000
+HISTSIZE=20000
+HISTFILESIZE=100000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -276,6 +276,9 @@ function glog {
    echo
 }
 
+function docker_login {
+    docker login registry.gitlab.com -u ${USER}@mintel.com -p ${GITLAB_REGISTRY_TOKEN}
+}
 
 if [ -d /opt/rh/rh-python36 ]; then
     source /opt/rh/rh-python36/enable
@@ -345,5 +348,14 @@ fi
 _=`which thefuck`
 if [[ $? -eq 0 ]]; then
     eval "$(thefuck --alias)"
+fi
+
+# asdf
+if [[ -f $HOME/.asdf/asdf.sh ]]; then
+    # . $HOME/.asdf/asdf.sh
+    :
+fi
+if [[ -f $HOME/.asdf/completions/asdf.bash ]]; then
+    . $HOME/.asdf/completions/asdf.bash
 fi
 
