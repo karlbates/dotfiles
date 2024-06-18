@@ -1,4 +1,4 @@
-# ~/.bash_aliases: executed from ~/.bashrc
+# ~/.aliases: executed from ~/.<shell>rc
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -13,14 +13,17 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # more colours
-#alias make='colormake'
+#_=`which colormake`
+#if [[ $? -eq 0 ]]; then
+#    alias make='colormake'
+#fi
 
 # some more ls aliases
 alias ll='ls -ahlF'
 alias la='ls -A'
 alias l='ls -CF'
 
-# server aliases
+# server
 alias ssh-dev-shopper='ssh -A dev-gnpd-shopper-app03.london.mintel.ad'
 alias ssh-dev-gda='ssh -A dev-gnpd-da-app01.london.mintel.ad'
 alias ssh-gda1='ssh -A gda-app01.lon-dc.mintel.ad'
@@ -35,21 +38,22 @@ alias ssh-gnpd-prod='ssh -A dev-gnpd-production-app01'
 alias ssh-gnpd-web='ssh -A dev-gnpd-app13.london.mintel.ad'
 alias ssh-dev-ppt='ssh -A est-ppt-app01.london.mintel.ad'
 
-# python aliases
+# python
 alias py2='python2'
 alias py3='python3'
 alias ppy3='PYTHONPATH=. python3'
 
-# pytest alias
+# pytest
 alias ppytest='PYTHONPATH=src pytest -svvv'
 alias fpytest='PYTHONPATH=func pytest -svvv'
 
 alias pienv='pipenv'
 
-
-# docker aliases
-
+# docker
 alias stopker="docker ps -q | xargs -t docker stop"
 alias clearker="docker ps -qa | xargs -t docker rm"
 alias dieker="stopker && clearker"
+
+# git
+alias gt="git"
 

@@ -17,3 +17,5 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 
+
+source /Users/karl.bates/.docker/init-bash.sh || true # Added by Docker Desktop

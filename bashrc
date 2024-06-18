@@ -359,3 +359,5 @@ if [[ -f $HOME/.asdf/completions/asdf.bash ]]; then
     . $HOME/.asdf/completions/asdf.bash
 fi
 
+
+source /Users/karl.bates/.docker/init-bash.sh || true # Added by Docker Desktop

@@ -76,3 +76,9 @@ call matchadd('ExtraSpaces', ' \+\t\+', 0) " spaces before tabs
 call matchadd('ExtraSpaces', '\t\+ \+', 0) " tabs before spaces
 call matchadd('TooLong', '\%>88v.\+' , -1)
 
+" set temp directories
+set backupdir-=.
+set backupdir+=/tmp/
+set directory-=.
+set directory+=/tmp/
+
