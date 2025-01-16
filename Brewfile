@@ -11,4 +11,5 @@ brew "asdf"
 brew "pre-commit"
 brew "ag"
 brew "tree"
+brew "p7zip"
 
