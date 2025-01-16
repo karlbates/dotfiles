@@ -120,37 +120,41 @@ export PATH="${HOME}/.local/bin:${PATH}"
 export PATH=$HOMEBREW_PREFIX/include:$PATH
 export PATH=$HOME/Library/Python/3.9/bin/:$PATH
 
-# ssh and gpg
-unset SSH_AGENT_PID
-if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-fi
-gpgconf --launch gpg-agent
+# # ssh and gpg
+# _=`command -v gpgconf`
+# # if ! command -v gpgconf &> /dev/null; then
+# if [[ $? -eq 0 ]]; then
+#     unset SSH_AGENT_PID
+#     if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+#       export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+#     fi
+#     gpgconf --launch gpg-agent
+# endif
 
-# codeartifact
-ca_creds=$HOME/.codeartifact-credentials
-ca_env=$HOME/.codeartifact-env
-if [[ -f $ca_creds ]]; then
-    # echo "ca creds exist"
-    now_ts=$(date +%s)
-    end_date=$(jq -r .expiration $ca_creds)
-    end_ts=$(gdate -d ${end_date} +%s)
-    if [[ $now_ts -gt $end_ts ]]; then
-        # echo "deleting ca creds"
-        rm $ca_creds
-        rm $ca_env
-    fi
-fi
-if [[ -f $ca_env ]]; then
-    # echo "using existing codeartifact token"
-    source $ca_env
-elif [[ `which aws` ]]; then
-    # echo "regenerating codeartifact token"
-    aws codeartifact get-authorization-token --domain ${CA_DOMAIN} --domain-owner ${CA_DOMAIN_OWNER} > $ca_creds
-    token=$(jq -r .authorizationToken $ca_creds)
-    echo "export CODEARTIFACT_TOKEN=${token}" > $ca_env
-    source $ca_env
-fi
+# # codeartifact
+# ca_creds=$HOME/.codeartifact-credentials
+# ca_env=$HOME/.codeartifact-env
+# if [[ -f $ca_creds ]]; then
+#     # echo "ca creds exist"
+#     now_ts=$(date +%s)
+#     end_date=$(jq -r .expiration $ca_creds)
+#     end_ts=$(gdate -d ${end_date} +%s)
+#     if [[ $now_ts -gt $end_ts ]]; then
+#         # echo "deleting ca creds"
+#         rm $ca_creds
+#         rm $ca_env
+#     fi
+# fi
+# if [[ -f $ca_env ]]; then
+#     # echo "using existing codeartifact token"
+#     source $ca_env
+# elif [[ `which aws` ]]; then
+#     # echo "regenerating codeartifact token"
+#     aws codeartifact get-authorization-token --domain ${CA_DOMAIN} --domain-owner ${CA_DOMAIN_OWNER} > $ca_creds
+#     token=$(jq -r .authorizationToken $ca_creds)
+#     echo "export CODEARTIFACT_TOKEN=${token}" > $ca_env
+#     source $ca_env
+# fi
 
 # poetry
 _=`which poetry`
@@ -168,6 +172,4 @@ fi
 # jump
 eval "$(jump shell)"
 
-
-
-source /Users/karl.bates/.docker/init-zsh.sh || true # Added by Docker Desktop
+source $HOME/.docker/init-zsh.sh || true # Added by Docker Desktop
